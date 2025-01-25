@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
       });
 
     // Generate JWT token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 
     // Return success response with JWT token
     res.status(201).json({

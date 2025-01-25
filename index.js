@@ -11,13 +11,13 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(express.json()); 
+app.use(express.json());
 app.use(cors());
 
 // Database Connection
 mongoose
   .connect(
-    "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.6"
+    "mongodb+srv://nikhil77gautam:QH3FSsvbAbOdDvBL@cluster0.u4nfv2p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => {
     console.log("Database Connected Successfully");
