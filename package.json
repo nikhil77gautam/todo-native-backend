@@ -5,7 +5,8 @@
   "description": "A backend for a TODO app using Express, MongoDB, and Node.js.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -19,7 +20,9 @@
     "jsonwebtoken": "^9.0.2",
     "module": "^1.2.5",
     "mongoose": "^8.9.5",
-    "node": "^22.13.0",
+    "node": "^22.13.0"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.9"
   }
 }
