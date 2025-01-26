@@ -50,7 +50,7 @@ const imgUpload = multer({
 });
 
 export const uploadFile = (req, res, next) => {
-  const upload = imgUpload.fields([{ name: "todoThumbnail", maxCount: 10 }]);
+  const upload = imgUpload.fields([{ name: "todoThumbnail", maxCount: 1 }]);
 
   upload(req, res, async (err) => {
     if (err) return next(err);
