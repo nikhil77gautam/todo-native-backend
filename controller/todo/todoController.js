@@ -1,5 +1,6 @@
 import Todo from "../../model/todo/todoModel.js";
 
+
 export const getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find({ user: req.user._id });
@@ -11,12 +12,22 @@ export const getAllTodos = async (req, res) => {
 
 export const addTodo = async (req, res) => {
   try {
+    console.log(req.body);
     const { title, description } = req.body;
     if (!title) {
       return res.status(400).json({ message: "Title is required." });
     }
 
-    const todo = await Todo.create({ user: req.user._id, title, description });
+    // Extract file names from uploaded files (if any)
+    const todoThumbnail =
+      req.files?.todoThumbnail?.map((file) => file.filename) || [];
+
+    const todo = await Todo.create({
+      user: req.user._id,
+      title,
+      description,
+      todoThumbnail,
+    });
     res.status(201).json(todo);
   } catch (err) {
     res.status(500).json({ message: "Failed to add todo." });
@@ -28,17 +39,26 @@ export const updateTodo = async (req, res) => {
     const { id } = req.params;
     const { title, description } = req.body;
 
-    if (!title && !description) {
+    // Ensure at least one field is provided
+    if (!title && !description && !req.files?.todoThumbnail) {
       return res.status(400).json({
-        message: "At least one field (title or description) is required.",
+        message:
+          "At least one field (title, description, or thumbnail) is required.",
       });
     }
 
-    const todo = await Todo.findByIdAndUpdate(
-      id,
-      { title, description },
-      { new: true }
-    );
+    // Extract file names from uploaded files
+    const todoThumbnail =
+      req.files?.todoThumbnail?.map((file) => file.filename) || [];
+
+    // Build update object dynamically
+    const updateFields = {};
+    if (title) updateFields.title = title;
+    if (description) updateFields.description = description;
+    if (todoThumbnail.length > 0) updateFields.todoThumbnail = todoThumbnail;
+
+    // Find and update the todo
+    const todo = await Todo.findByIdAndUpdate(id, updateFields, { new: true });
 
     if (!todo) {
       return res.status(404).json({ message: "Todo not found." });
