@@ -19,7 +19,7 @@ export const addTodo = async (req, res) => {
     }
 
     // Extract file names from uploaded files (if any)
-    const todoThumbnail =
+    const todoProfile =
       req.files?.todoThumbnail?.map((file) => file.filename) || [];
 
     console.log(todoThumbnail);
@@ -27,7 +27,7 @@ export const addTodo = async (req, res) => {
       user: req.user._id,
       title,
       description,
-      todoThumbnail: todoThumbnail,
+      todoThumbnail: todoProfile,
     });
     res.status(201).json(todo);
   } catch (err) {
