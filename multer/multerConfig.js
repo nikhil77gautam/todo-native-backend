@@ -22,6 +22,7 @@ const storage = multer.diskStorage({
 });
 
 const fileExtensionFilter = (req, file, cb) => {
+    console.log(file)
   const allowedMimetypes = [
     "application/pdf",
     "video/mp4",

@@ -1,6 +1,5 @@
 import Todo from "../../model/todo/todoModel.js";
 
-
 export const getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find({ user: req.user._id });
@@ -13,6 +12,7 @@ export const getAllTodos = async (req, res) => {
 export const addTodo = async (req, res) => {
   try {
     console.log(req.body);
+
     const { title, description } = req.body;
     if (!title) {
       return res.status(400).json({ message: "Title is required." });
@@ -22,14 +22,16 @@ export const addTodo = async (req, res) => {
     const todoThumbnail =
       req.files?.todoThumbnail?.map((file) => file.filename) || [];
 
+    console.log(todoThumbnail);
     const todo = await Todo.create({
       user: req.user._id,
       title,
       description,
-      todoThumbnail,
+      todoThumbnail: todoThumbnail,
     });
     res.status(201).json(todo);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to add todo." });
   }
 };
